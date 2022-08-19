@@ -1,20 +1,17 @@
 import React, {useState} from 'react';
-
+import TaskItemForm from './TaskItemForm';
 
 const TaskItem = (props) =>{
 
   const [doneTask, setDoneTask] = useState();
+  const [formActive, setFormActive] = useState(false);
   let status = '';
   doneTask != true ? status = '' : status = 'line-through'
   return(
     <div className = 'App_TaskItem'>
     <div className = 'App_TaskItem_Header'>
     <b className = 'App_TaskItem_Header_Font' style = {{textDecoration: status }}>First Task</b>
-    <button className = 'App'>...PEN</button>
-    <div style = {{position: 'relative', right: '10px', top: '10vh',}}>
-    <button>1</button>
-    <button>2</button>
-      </div>
+    <button className = 'App' onClick = {() => setFormActive(true)}>...PEN</button>
     </div>
     <div className = 'App_TaskItem_Text'>
     text text text text text text text
@@ -51,6 +48,23 @@ const TaskItem = (props) =>{
     onChange ={event =>{setDoneTask(!doneTask); console.log('status', doneTask)}}
     checked = {doneTask}/>Done</div>
     </div>
+    <TaskItemForm active = {formActive} setActive = {setFormActive}>
+    halkdjhfladjshflajhdslfhajsfdlkh
+    fasfaf
+    halkdjhfladjshflajhdslfhajsfdlkh
+    halkdjhfladjshflajhdslfhajsfdlkh
+    halkdjhfladjshflajhdslfhajsfdlkh
+    halkdjhfladjshflajhdslfhajsfdlkh
+    halkdjhfladjshflajhdslfhajsfdlkhss
+    halkdjhfladjshflajhdslfhajsfdlkh
+    halkdjhfladjshflajhdslfhajsfdlkh
+    halkdjhfladjshflajhdslfhajsfdlkh
+    halkdjhfladjshflajhdslfhajsfdlkh
+    halkdjhfladjshflajhdslfhajsfdlkh
+    halkdjhfladjshflajhdslfhajsfdlkh
+
+    halkdjhfladjshflajhdslfhajsfdlkh
+    </TaskItemForm>
     </div>
   )
 }

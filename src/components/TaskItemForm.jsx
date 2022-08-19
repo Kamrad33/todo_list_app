@@ -1,0 +1,14 @@
+import React, {useState} from 'react';
+import '../styles/TaskItemForm.css';
+
+const TaskItemForm = ({active, setActive, children}) => {
+  return (
+    <div className = {active ? 'TaskItemForm active' : 'TaskItemForm'} onClick ={() => setActive(false)}>
+      <div className = {active ? 'TaskItemForm_Content active' : 'TaskItemForm_Content'} onClick = {e => e.stopPropagation()}>
+      {children}
+      </div>
+    </div>
+  );
+};
+
+export default TaskItemForm;
