@@ -1,0 +1,36 @@
+.App_TaskItem{
+  background-color: #fff1ae;
+  flex: 0 0 40vw;
+  margin: 25px;
+  height: auto;
+  border-radius:10px;
+}
+
+.App_TaskItem_Header{
+  display: flex;
+  justify-content: space-between;
+  padding: 1vh;
+}
+
+.App_TaskItem_Header_Font{
+  font-size: 200%;
+}
+
+.App_TaskItem_Text{
+  padding: 1vh;
+}
+
+.App_TaskItem_Footer{
+  padding: 1vh;
+  display: flex;
+  justify-content: space-between;
+}
+
+.App_TaskItem_Footer_Tags{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.App_TaskItem_Footer_Done{
+  flex-wrap: wrap;
+}

@@ -5,6 +5,14 @@ import AppHeader from './components/UI/header/AppHeader';
 import TaskItem from './components/TaskItem'
 
 function App() {
+const [tasks, setTasks] = useState(
+  [
+    {id: 1, title:'title 1', text:'text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1'},
+    {id: 2, title:'title 2', text:'text text text 2 2 2'},
+    {id: 3, title:'title 3', text:'text text text 3 3 3'},
+    {id: 4, title:'title 4', text:'text text text 4 4 4'},
+
+  ]);
   return (
     <div className="App">
     <AppHeader>
@@ -74,7 +82,7 @@ function App() {
         margin: '20px',
       }}>
         </div>
-        <TaskItem/>
+        <TaskItem task = {tasks[0]}/>
         <div style = {{
           backgroundColor: 'grey',
           flex: '0 0 40vw',

@@ -12,10 +12,12 @@
   pointer-events: none;
   transition: 0.5s;
 }
+
 .TaskItemForm.active {
   opacity: 1;
   pointer-events: all;
 }
+
 .TaskItemForm_Content {
   padding: 25px;
   border-radius: 10px;
@@ -24,6 +26,39 @@
   transform: scale(0.5);
   transition: 0.4s all;
 }
+
 .TaskItemForm_Content.active {
   transform: scale(1);
+}
+
+.TaskItemForm_Content_Header {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px;
+}
+
+.TaskItemForm_Content_Info {
+  margin: 5px;
+}
+
+.TaskItemForm_Content_Tags{
+  display: flex;
+  justify-content: flex-start;
+  margin: 5px;
+}
+
+.TaskItemForm_Content_Tags_Tag{
+
+    border-radius: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items:center;
+    width: auto;
+    padding: 5px;
+    pointer-events: all;
+}
+.TaskItemForm_Content_Tags_Tag.active{
+  transition: 0.5s;
+  background-color: rgba(0,0,0, 0.15);
+
 }
