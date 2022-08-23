@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import '../styles/TaskItemForm.css';
 
-
-const TaskTag = ({active, setActive, fixed, children}) =>{
+const TaskTag = ({color, fixed, children}) =>{
   const [tagActive, setTagActive] = useState(true);
   return (
     <div className = {tagActive ? 'TaskItemForm_Content_Tags_Tag active' : 'TaskItemForm_Content_Tags_Tag'}
@@ -11,10 +10,12 @@ const TaskTag = ({active, setActive, fixed, children}) =>{
         margin: '5px',
         width:'20px',
         height:'20px',
-        background: 'grey',
+        background: color,
         borderRadius:'50%'}}>
-    </div>
-    TAG
+      </div>
+      <div>
+      {children}
+      </div>
     </div>
 
   );

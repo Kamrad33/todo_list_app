@@ -1,0 +1,9 @@
+.myButton{
+  background-color: red;
+  border: red;
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+  padding: 5px;
+  font-size: 100%;
+}

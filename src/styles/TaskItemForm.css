@@ -43,7 +43,8 @@
 
 .TaskItemForm_Content_Tags{
   display: flex;
-  justify-content: flex-start;
+  flex-wrap: wrap;
+  justify-content: space-around;
   margin: 5px;
 }
 
