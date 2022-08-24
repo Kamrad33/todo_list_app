@@ -1,18 +1,39 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './styles/App.css';
 import AppContainer from './components/UI/container/AppContainer';
 import AppHeader from './components/UI/header/AppHeader';
-import TaskItem from './components/TaskItem'
+import TaskItem from './components/TaskItem';
+import TaskItemForm from './components/TaskItemForm';
+import ItemFormContent from './components/ItemFormContent';
 
 function App() {
+const [editForm, setEditForm] = useState(false);
+const [addForm, setAddForm] = useState(false);
+const [editedTask, setEditedTask] = useState({});
+
+const openEditForm = (task) =>{
+  setEditForm(true);
+  setEditedTask(task)
+  console.log('TASK', task, 'TASKSTATE', editedTask);
+};
+const openAddForm = () =>{
+  setEditForm(true);
+};
+const closeEditForm = () =>{
+  setEditForm(false);
+};
+const closeAddForm = () =>{
+  setEditForm(false);
+};
+
 const [tasks, setTasks] = useState(
   [
     {id: 1, title:'title 1', text:'text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1'},
     {id: 2, title:'title 2', text:'text text text 2 2 2'},
     {id: 3, title:'title 3', text:'text text text 3 3 3'},
     {id: 4, title:'title 4', text:'text text text 4 4 4'},
-
   ]);
+
   return (
     <div className="App">
     <AppHeader>
@@ -61,95 +82,28 @@ const [tasks, setTasks] = useState(
       justifyContent: 'center',
       overflow: 'auto',
     }}>
-    <div style = {{
-      backgroundColor: '#fff1ae',
-      display: 'flex',
-      flex: '0 0 40vw',
-      margin: '25px',
-      height: 'auto',
-      minHeight: '20vh',
-      minWidth: '20vw',
-      borderRadius:'10px',
-    }}>
-
-      </div>
-      <div style = {{
-        width: '100px',
-        height: '100px',
-        backgroundColor: 'red',
-        display: 'flex',
-        flex: '0 0 calc(60vh)',
-        margin: '20px',
-      }}>
-        </div>
+        <TaskItemForm
+        active = {editForm}
+        setActive = {setEditForm}
+        fixed = {true}>
+          <ItemFormContent
+          action = 'Edit'
+          close = {closeEditForm}
+          data = {editedTask}/>
+        </TaskItemForm>
+        <TaskItemForm active = {addForm} setActive = {setAddForm} fixed = {false}>
+        </TaskItemForm>
+        <TaskItem task = {tasks[0]} edit = {openEditForm}/>
+        <TaskItem task = {tasks[1]} edit = {openEditForm}/>
+        <TaskItem task = {tasks[2]} edit = {openEditForm}/>
+        <TaskItem task = {tasks[3]} edit = {openEditForm}/>
         <TaskItem task = {tasks[0]}/>
-        <div style = {{
-          backgroundColor: 'grey',
-          flex: '0 0 40vw',
-          margin: '25px',
-          height: 'auto',
-          minHeight: '20vh',
-        }}>
-          </div>
-          <div style = {{
-            backgroundColor: 'grey',
-            flex: '0 0 40vw',
-            margin: '25px',
-            height: 'auto',
-            minHeight: '20vh',
+        <TaskItem task = {tasks[0]}/>
+        <TaskItem task = {tasks[0]}/>
+        <TaskItem task = {tasks[0]}/>
+        <TaskItem task = {tasks[0]}/>
+        <TaskItem task = {tasks[0]}/>
 
-          }}>
-            </div>
-            <div style = {{
-              backgroundColor: 'grey',
-              flex: '0 0 40vw',
-              margin: '25px',
-              height: 'auto',
-              minHeight: '20vh',
-            }}>
-              </div>
-              <div style = {{
-                backgroundColor: 'grey',
-                flex: '0 0 40vw',
-                margin: '25px',
-                height: 'auto',
-                minHeight: '20vh',
-              }}>
-                </div>
-                <div style = {{
-                  backgroundColor: 'grey',
-                  flex: '0 0 40vw',
-                  margin: '25px',
-                  height: 'auto',
-                  minHeight: '20vh',
-                }}>
-                  </div>
-                  <div style = {{
-                    backgroundColor: 'grey',
-                    flex: '0 0 40vw',
-                    margin: '25px',
-                    height: 'auto',
-                    minHeight: '20vh',
-                  }}>
-                    </div>
-        <div style = {{
-          width: '100px',
-          height: '100px',
-          backgroundColor: 'red',
-          display: 'flex',
-          flex: '0 0 calc(60vh)',
-          margin: '20px',
-        }}>
-          Task3</div>
-          <div style = {{
-            width: '100px',
-            height: '100px',
-            backgroundColor: 'red',
-            display: 'flex',
-            flex: '0 0 calc(60vh)',
-            margin: '20px',
-          }}>
-            Task3</div>
 
     </AppContainer>
     </AppContainer>
