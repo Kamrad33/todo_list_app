@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import './styles/App.css';
 import AppContainer from './components/UI/container/AppContainer';
 import AppHeader from './components/UI/header/AppHeader';
+import AppButton from './components/UI/button/AppButton';
 import TaskItem from './components/TaskItem';
 import TaskItemForm from './components/TaskItemForm';
 import ItemFormContent from './components/ItemFormContent';
@@ -9,27 +10,46 @@ import ItemFormContent from './components/ItemFormContent';
 function App() {
 const [editForm, setEditForm] = useState(false);
 const [addForm, setAddForm] = useState(false);
+const [deleteForm, setDeleteForm] = useState(true);
 const [editedTask, setEditedTask] = useState({});
+
 
 const openEditForm = (task) =>{
   setEditForm(true);
   setEditedTask(task)
-  console.log('TASK', task, 'TASKSTATE', editedTask);
 };
 const openAddForm = () =>{
-  setEditForm(true);
+  setAddForm(true);
+};
+const openDeleteForm = () =>{
+  setDeleteForm(true);
 };
 const closeEditForm = () =>{
   setEditForm(false);
 };
 const closeAddForm = () =>{
-  setEditForm(false);
+  setAddForm(false);
 };
+const closeDeleteForm = () => {
+  setDeleteForm(false);
+}
 
 const [tasks, setTasks] = useState(
   [
-    {id: 1, title:'title 1', text:'text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1'},
-    {id: 2, title:'title 2', text:'text text text 2 2 2'},
+    { id: 1,
+      title:'title 1',
+      text:'text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1 text text text 1 1 1',
+      done: true,
+      workTag: true,
+      studyTag: false,
+      entertaimentTag: false,
+      familyTag: false,
+      },
+    {id: 2, title:'title 2', text:'text text text 2 2 2',
+    workTag: false,
+    studyTag: true,
+    entertaimentTag: false,
+    familyTag: false},
     {id: 3, title:'title 3', text:'text text text 3 3 3'},
     {id: 4, title:'title 4', text:'text text text 4 4 4'},
   ]);
@@ -52,7 +72,11 @@ const [tasks, setTasks] = useState(
     <text>
     Todo
     </text>
-    <button>+</button>
+    <AppButton
+      color = '#69665c'
+      fontColor = 'white'
+      minWidth = '15vw'
+      onClick = {openAddForm}>Add</AppButton>
     </AppContainer>
     </AppHeader>
     <AppContainer style = {{
@@ -91,20 +115,26 @@ const [tasks, setTasks] = useState(
           close = {closeEditForm}
           data = {editedTask}/>
         </TaskItemForm>
-        <TaskItemForm active = {addForm} setActive = {setAddForm} fixed = {false}>
+
+        <TaskItemForm
+        active = {addForm}
+        setActive = {setAddForm}
+        fixed = {true}>
+          <ItemFormContent
+          action = 'Add'
+          close = {closeAddForm}
+          data = {''}/>
         </TaskItemForm>
-        <TaskItem task = {tasks[0]} edit = {openEditForm}/>
+        <TaskItemForm
+        active = {deleteForm}
+        setActive = {setDeleteForm}
+        fixed = {false}>
+        shure&
+        </TaskItemForm>
+        <TaskItem task = {tasks[0]} edit = {openEditForm} drop = {openDeleteForm}/>
         <TaskItem task = {tasks[1]} edit = {openEditForm}/>
         <TaskItem task = {tasks[2]} edit = {openEditForm}/>
         <TaskItem task = {tasks[3]} edit = {openEditForm}/>
-        <TaskItem task = {tasks[0]}/>
-        <TaskItem task = {tasks[0]}/>
-        <TaskItem task = {tasks[0]}/>
-        <TaskItem task = {tasks[0]}/>
-        <TaskItem task = {tasks[0]}/>
-        <TaskItem task = {tasks[0]}/>
-
-
     </AppContainer>
     </AppContainer>
 

@@ -1,5 +1,5 @@
-.TaskItemForm{
-  background-color: rgba(0,0,0,0.2);
+.TaskItemForm {
+  background-color: rgba(0, 0, 0, 0.2);
   height: 100vh;
   width: 100vw;
   position: fixed;
@@ -41,25 +41,24 @@
   margin: 5px;
 }
 
-.TaskItemForm_Content_Tags{
+.TaskItemForm_Content_Tags {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   margin: 5px;
 }
 
-.TaskItemForm_Content_Tags_Tag{
-
-    border-radius: 10px;
-    display: flex;
-    justify-content: flex-start;
-    align-items:center;
-    width: auto;
-    padding: 5px;
-    pointer-events: all;
+.TaskItemForm_Content_Tags_Tag {
+  border-radius: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: auto;
+  padding: 5px;
+  pointer-events: all;
 }
-.TaskItemForm_Content_Tags_Tag.active{
-  transition: 0.5s;
-  background-color: rgba(0,0,0, 0.15);
 
+.TaskItemForm_Content_Tags_Tag.active {
+  transition: 0.5s;
+  background-color: rgba(0, 0, 0, 0.15);
 }
