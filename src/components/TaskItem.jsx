@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import TaskItemForm from './TaskItemForm';
 import TaskTag from './TaskTag';
 import AppInput from './UI/input/AppInput';
@@ -28,7 +28,9 @@ const TaskItem = ({task, edit, drop, ...props}) =>{
     setFormActive(true);
     drop();
   }
-
+  useEffect(()=>{
+    console.log('rerender');
+  }, [taskTags])
   return(
 
     <div className = 'App_TaskItem'>

@@ -3,7 +3,7 @@ import TaskTag from './TaskTag';
 import AppInput from './UI/input/AppInput';
 import AppButton from './UI/button/AppButton';
 
-const ItemFormContent = ({action, close, data, ...props}) =>{
+const ItemFormContent = ({action, actionFunc, close, data, ...props}) =>{
 
   const [formActive, setFormActive] = useState(false);
   const [titleValue, setTitleValue] = useState('');
@@ -45,9 +45,19 @@ const ItemFormContent = ({action, close, data, ...props}) =>{
 
   const editButton = () => {
     console.log('fetch edit data', titleValue, textValue, workTag, studyTag, entertaimentTag, familyTag);
+    console.log(data.id, 'id');
+    actionFunc(
+      data.id, 
+      titleValue,
+      textValue,
+      workTag,
+      studyTag,
+      entertaimentTag,
+      familyTag);
   }
   const addButton = () => {
     console.log('fetch add data', titleValue, textValue, workTag, studyTag, entertaimentTag, familyTag);
+    actionFunc(titleValue, textValue, workTag, studyTag, entertaimentTag, familyTag);
   }
 
   return (

@@ -1,3 +1,24 @@
+.App_Header{
+
+}
+.App_Header_Content{
+  background-color: green;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+}
+.App_Header_Content_Text{
+  margin: auto;
+  display: flex;
+  font-size: 200%;
+  margin-left: 10vw;
+}
+.App_DeleteForm_Content{
+display: flex;
+justify-content: space-between;
+align-items: baseline;
+}
 
 
 /*.App {

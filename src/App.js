@@ -10,7 +10,7 @@ import ItemFormContent from './components/ItemFormContent';
 function App() {
 const [editForm, setEditForm] = useState(false);
 const [addForm, setAddForm] = useState(false);
-const [deleteForm, setDeleteForm] = useState(true);
+const [deleteForm, setDeleteForm] = useState(false);
 const [editedTask, setEditedTask] = useState({});
 
 
@@ -34,6 +34,7 @@ const closeDeleteForm = () => {
   setDeleteForm(false);
 }
 
+
 const [tasks, setTasks] = useState(
   [
     { id: 1,
@@ -54,6 +55,41 @@ const [tasks, setTasks] = useState(
     {id: 4, title:'title 4', text:'text text text 4 4 4'},
   ]);
 
+  const addTaskFunc = (titleValue, textValue, workTag, studyTag, entertaimentTag, familyTag) => {
+
+    const newTask = {id: 1,
+      title: titleValue,
+      text: textValue,
+      done: false,
+      workTag:workTag,
+      studyTag:studyTag,
+      entertaimentTag:entertaimentTag,
+      familyTag:familyTag};
+    setTasks([...tasks, newTask]);
+  };
+
+  const editTaskFunc = (
+    id,
+    titleValue,
+    textValue,
+    workTag,
+    studyTag,
+    entertaimentTag,
+    familyTag) => {
+
+      const editedTaskObj = {
+        id: id,
+        title: titleValue,
+        text: textValue,
+        done: false,
+        workTag: true,
+        studyTag: true,
+        entertaimentTag: true,
+        familyTag: true}
+
+      let newTaskLists = tasks.filter(task => task.id != id);
+        setTasks([editedTaskObj, ...newTaskLists])
+  };
   return (
     <div className="App">
     <AppHeader>
@@ -63,21 +99,16 @@ const [tasks, setTasks] = useState(
       minHeight: '100px',
       flex: '0 0 100px',
     }}>Icon</AppContainer>
-    <AppContainer style = {{
-      backgroundColor: 'green',
-      width: '100%',
-      display: 'flex',
-      justifyContent: 'space-between',
-    }}>
-    <text>
-    Todo
-    </text>
+    <div className = 'App_Header_Content'>
+      <div className = 'App_Header_Content_Text'>
+      Todo list:
+      </div>
     <AppButton
       color = '#69665c'
       fontColor = 'white'
       minWidth = '15vw'
       onClick = {openAddForm}>Add</AppButton>
-    </AppContainer>
+    </div>
     </AppHeader>
     <AppContainer style = {{
       backgroundColor: 'grey',
@@ -113,6 +144,7 @@ const [tasks, setTasks] = useState(
           <ItemFormContent
           action = 'Edit'
           close = {closeEditForm}
+          actionFunc = {editTaskFunc}
           data = {editedTask}/>
         </TaskItemForm>
 
@@ -123,18 +155,30 @@ const [tasks, setTasks] = useState(
           <ItemFormContent
           action = 'Add'
           close = {closeAddForm}
+          actionFunc = {addTaskFunc}
           data = {''}/>
         </TaskItemForm>
         <TaskItemForm
         active = {deleteForm}
         setActive = {setDeleteForm}
         fixed = {false}>
-        shure&
+          <div className = 'App_DeleteForm_Content'>
+            <div>Are you shure?</div>
+            <AppButton
+              color = '#69665c'
+              fontColor = 'white'
+              minWidth = '10vw'
+              onClick = {console.log('sss')}>
+            YES
+            </AppButton>
+          </div>
         </TaskItemForm>
-        <TaskItem task = {tasks[0]} edit = {openEditForm} drop = {openDeleteForm}/>
-        <TaskItem task = {tasks[1]} edit = {openEditForm}/>
-        <TaskItem task = {tasks[2]} edit = {openEditForm}/>
-        <TaskItem task = {tasks[3]} edit = {openEditForm}/>
+        {tasks.map(task => <TaskItem
+          task = {task}
+          key={tasks.id}
+          edit = {openEditForm}
+          drop = {openDeleteForm}/>)}
+
     </AppContainer>
     </AppContainer>
 
