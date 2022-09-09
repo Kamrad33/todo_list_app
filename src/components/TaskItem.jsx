@@ -6,7 +6,7 @@ import AppButton from './UI/button/AppButton';
 
 import '../styles/TaskItem.css';
 
-const TaskItem = ({task, edit, drop, ...props}) =>{
+const TaskItem = ({task, edit, drop, done, ...props}) =>{
 
   const [doneTask, setDoneTask] = useState(task.done);
   const [formActive, setFormActive] = useState(false);
@@ -26,7 +26,13 @@ const TaskItem = ({task, edit, drop, ...props}) =>{
   }
   const deleteTask = (e) =>{
     setFormActive(true);
-    drop();
+    drop(task);
+  }
+  const doneTaskFunc = (e) =>{
+    console.log('status1', doneTask, task.id)
+    setDoneTask(!doneTask);
+    done(!doneTask, task.id);
+    console.log('status', !doneTask, task.id)
   }
   useEffect(()=>{
     console.log('rerender');
@@ -45,15 +51,24 @@ const TaskItem = ({task, edit, drop, ...props}) =>{
       </div>
 
       <div className = 'App_TaskItem_Footer'>
-        <div className = 'App_TaskItem_Footer_Tags'>
+        {/*<div className = 'App_TaskItem_Footer_Tags'>
           {taskTags.filter(taskTag => taskTag.status == true)
-            .map(taskTag => <TaskTag  color = {taskTag.color} fixed = {false} key={taskTag.color}/>)}
+            .map(taskTag => <TaskTag
+              color = {taskTag.color}
+              fixed = {false}
+              key={taskTag.color}/>)}
+        </div>*/}
+        <div className = 'App_TaskItem_Footer_Tags'>
+          {task.workTag == true ? <TaskTag color = {'#FFCECE'} fixed = {true}/> : ''}
+          {task.studyTag == true ? <TaskTag color = {'#D1E5F7'} fixed = {true}/> : ''}
+          {task.entertaimentTag == true ? <TaskTag color = {'#DAF2D6'} fixed = {true}/> : ''}
+          {task.familyTag == true ? <TaskTag color = {'#D2CEFF'} fixed = {true}/> : ''}
         </div>
         <div className = 'App_TaskItem_Footer_Done'>
           <input
           type="checkbox"
           id="click"
-          onChange ={event =>{setDoneTask(!doneTask); console.log('status', doneTask)}}
+          onChange ={doneTaskFunc}
           checked = {doneTask}/>
           Done
         </div>

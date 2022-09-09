@@ -21,17 +21,21 @@ const openEditForm = (task) =>{
 const openAddForm = () =>{
   setAddForm(true);
 };
-const openDeleteForm = () =>{
+const openDeleteForm = (task) =>{
   setDeleteForm(true);
+  setEditedTask(task)
+  console.log(task);
 };
 const closeEditForm = () =>{
   setEditForm(false);
+  setEditedTask({});
 };
 const closeAddForm = () =>{
   setAddForm(false);
 };
 const closeDeleteForm = () => {
   setDeleteForm(false);
+  setEditedTask({});
 }
 
 
@@ -47,17 +51,17 @@ const [tasks, setTasks] = useState(
       familyTag: false,
       },
     {id: 2, title:'title 2', text:'text text text 2 2 2',
+    done: false,
     workTag: false,
     studyTag: true,
     entertaimentTag: false,
     familyTag: false},
-    {id: 3, title:'title 3', text:'text text text 3 3 3'},
-    {id: 4, title:'title 4', text:'text text text 4 4 4'},
+
   ]);
 
   const addTaskFunc = (titleValue, textValue, workTag, studyTag, entertaimentTag, familyTag) => {
 
-    const newTask = {id: 1,
+    const newTask = {id: Date.now(),
       title: titleValue,
       text: textValue,
       done: false,
@@ -75,21 +79,39 @@ const [tasks, setTasks] = useState(
     workTag,
     studyTag,
     entertaimentTag,
-    familyTag) => {
+    familyTag,
+    done) => {
 
       const editedTaskObj = {
         id: id,
         title: titleValue,
         text: textValue,
-        done: false,
-        workTag: true,
-        studyTag: true,
-        entertaimentTag: true,
-        familyTag: true}
+        done: done,
+        workTag: workTag,
+        studyTag: studyTag,
+        entertaimentTag: entertaimentTag,
+        familyTag: familyTag}
 
       let newTaskLists = tasks.filter(task => task.id != id);
         setTasks([editedTaskObj, ...newTaskLists])
+        closeEditForm();
   };
+
+  const deleteTaskFunc = () =>{
+    let newTaskLists = tasks.filter(task => task.id != editedTask.id);
+    setTasks(newTaskLists);
+    closeDeleteForm();
+  }
+  const doneTaskActon = (done, id) => {
+    console.log('log', done, id);
+    setTasks(tasks.map(task => task.id == id ? {...task, done: done} : task))
+  }
+
+
+  const saveData = () =>{
+
+    console.log('fetch', tasks);
+  }
   return (
     <div className="App">
     <AppHeader>
@@ -103,6 +125,11 @@ const [tasks, setTasks] = useState(
       <div className = 'App_Header_Content_Text'>
       Todo list:
       </div>
+      <AppButton
+        color = '#69665c'
+        fontColor = 'white'
+        minWidth = '15vw'
+        onClick = {saveData}>Save</AppButton>
     <AppButton
       color = '#69665c'
       fontColor = 'white'
@@ -161,14 +188,21 @@ const [tasks, setTasks] = useState(
         <TaskItemForm
         active = {deleteForm}
         setActive = {setDeleteForm}
-        fixed = {false}>
+        fixed = {true}>
           <div className = 'App_DeleteForm_Content'>
             <div>Are you shure?</div>
             <AppButton
               color = '#69665c'
               fontColor = 'white'
               minWidth = '10vw'
-              onClick = {console.log('sss')}>
+              onClick = {closeDeleteForm}>
+            NO
+            </AppButton>
+            <AppButton
+              color = '#69665c'
+              fontColor = 'white'
+              minWidth = '10vw'
+              onClick = {deleteTaskFunc}>
             YES
             </AppButton>
           </div>
@@ -177,6 +211,7 @@ const [tasks, setTasks] = useState(
           task = {task}
           key={tasks.id}
           edit = {openEditForm}
+          done = {doneTaskActon}
           drop = {openDeleteForm}/>)}
 
     </AppContainer>

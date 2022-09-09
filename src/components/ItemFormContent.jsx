@@ -20,6 +20,7 @@ const ItemFormContent = ({action, actionFunc, close, data, ...props}) =>{
     setStudyTag(data.studyTag);
     setEntertaimentTag(data.entertaimentTag);
     setFamilyTag(data.familyTag);
+    console.log('axaxa', data.title);
   },[close]);
 
   const closeForm = (e) =>{
@@ -46,8 +47,9 @@ const ItemFormContent = ({action, actionFunc, close, data, ...props}) =>{
   const editButton = () => {
     console.log('fetch edit data', titleValue, textValue, workTag, studyTag, entertaimentTag, familyTag);
     console.log(data.id, 'id');
+    
     actionFunc(
-      data.id, 
+      data.id,
       titleValue,
       textValue,
       workTag,
