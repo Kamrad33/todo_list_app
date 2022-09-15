@@ -12,7 +12,7 @@ const [editForm, setEditForm] = useState(false);
 const [addForm, setAddForm] = useState(false);
 const [deleteForm, setDeleteForm] = useState(false);
 const [editedTask, setEditedTask] = useState({});
-
+const [hideDone, setHideDone] = useState(false);
 
 const openEditForm = (task) =>{
   setEditForm(true);
@@ -107,7 +107,20 @@ const [tasks, setTasks] = useState(
     setTasks(tasks.map(task => task.id == id ? {...task, done: done} : task))
   }
 
+  useEffect(() => {
+    //document.getElementsByClassName('App').forceUpdate();
+    //TaskItem.forceUpdate();
+    console.log('randerrender');
+  }, [hideDone])
 
+  const taskItemList = () => {
+    const items = tasks.map(task => <TaskItem
+      task = {task}
+      key={tasks.id}
+      edit = {openEditForm}
+      done = {doneTaskActon}
+      drop = {openDeleteForm}/>)
+  }
   const saveData = () =>{
 
     console.log('fetch', tasks);
@@ -149,7 +162,10 @@ const [tasks, setTasks] = useState(
       flexDirection: 'column',
       margin: '5px',
     }}>
-    <input type="checkbox" id="click" />
+    <input
+    type="checkbox"
+    id="click"
+    onChange = {() => setHideDone(!hideDone)}/>
     <text>Hide done</text>
     <text>Work</text>
     <text>Study</text>
@@ -207,12 +223,20 @@ const [tasks, setTasks] = useState(
             </AppButton>
           </div>
         </TaskItemForm>
-        {tasks.map(task => <TaskItem
+        <div className = 'App_TaskItems' onChange = {console.log('rerenderayaya')}>
+        {hideDone ? tasks.filter(task => task.done == false).map(task => <TaskItem
           task = {task}
           key={tasks.id}
           edit = {openEditForm}
           done = {doneTaskActon}
-          drop = {openDeleteForm}/>)}
+          drop = {openDeleteForm}/>)
+          : tasks.map(task => (<div className = {tasks.id}><TaskItem
+            task = {task}
+            key={tasks.id}
+            edit = {openEditForm}
+            done = {doneTaskActon}
+            drop = {openDeleteForm}/></div>)) }
+            </div>
 
     </AppContainer>
     </AppContainer>
