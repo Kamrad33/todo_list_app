@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import TaskTag from './TaskTag';
 import AppInput from './UI/input/AppInput';
 import AppButton from './UI/button/AppButton';
-
+import TagsList from './TagsList';
 const ItemFormContent = ({action, actionFunc, close, data, ...props}) =>{
 
   const [formActive, setFormActive] = useState(false);
@@ -47,7 +47,7 @@ const ItemFormContent = ({action, actionFunc, close, data, ...props}) =>{
   const editButton = () => {
     console.log('fetch edit data', titleValue, textValue, workTag, studyTag, entertaimentTag, familyTag);
     console.log(data.id, 'id');
-    
+
     actionFunc(
       data.id,
       titleValue,
@@ -99,7 +99,7 @@ const ItemFormContent = ({action, actionFunc, close, data, ...props}) =>{
       <div>Tags</div>
 
       <div className = 'TaskItemForm_Content_Tags'>
-
+        
         <TaskTag
           color = {'#FFCECE'}
           fixed = {false}

@@ -5,7 +5,8 @@ const TaskTag = ({color, fixed, tagActive, children, ...props}) =>{
 
   return (
     <div className = {tagActive ? 'TaskItemForm_Content_Tags_Tag active' : 'TaskItemForm_Content_Tags_Tag'}
-        {...props}>
+        {...props}
+        style = {{margin: '5px'}}>
       <div style = {{
         margin: '5px',
         width:'20px',
