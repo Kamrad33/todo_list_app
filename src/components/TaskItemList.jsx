@@ -17,8 +17,8 @@ const TaskItemList = ({
   })
   return (
 
-    <div className = 'App_TaskItems' onChange = {console.log('rerenderayaya')}>
-
+    <div className = 'App_TaskItems' onChange = {console.log('rerender task lists')}>
+    
     {sortedTasks.map(task => (<TaskItem
         task = {task}
         key={task.id}

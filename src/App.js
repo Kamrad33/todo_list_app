@@ -144,23 +144,28 @@ function App() {
   }
 
   function filterRender(tasks, hide, work, study, entertaiment, family) {
+
+    let filtredTaskArray = [];
+    let workTasks = [];
+    let studyTasks = [];
+    let entertaimentTasks = [];
+    let familyTasks = [];
+
+    console.log('filter work 1', filtredTaskArray);
+
     if (hide) {
-        return tasks.filter(task => task.done == false)
+        tasks = tasks.filter(task => task.done == false)
     }
-      return tasks;
-//    let workTasks = [];
-  //  let studyTasks = [];
-//    let entertaimentTasks = [];
-//    let familyTasks = [];
 
+      work ? workTasks = tasks.filter(task => task.workTag == true) : workTasks = [];
+      study ? studyTasks = tasks.filter(task => task.studyTag == true) : studyTasks = [];
+      entertaiment ? entertaimentTasks = tasks.filter(task => task.entertaimentTag == true) : entertaimentTasks = [];
+      family ? familyTasks = tasks.filter(task => task.familyTag == true) : familyTasks = [];
+      filtredTaskArray = [...new Set([...workTasks, ...studyTasks, ...entertaimentTasks, ...familyTasks])];
+      console.log('show not all', filtredTaskArray);
+      return filtredTaskArray;
 
-  //hide ? (tasks.filter(task => task.done == false) ) : (tasks);
-//    work ? let workTasks = taskArray.filter(task => task.workTag == true) : workTasks = [];
-//    study ? let studyTasks = taskArray.filter(task => task.studyTag == true) : studyTasks = [];
-  //  entertaiment ? let entertaimentTasks = taskArray.filter(task => task.entertaimentTag == true) : entertaimentTasks = [];
-  //  family ? let familyTasks = taskArray.filter(task => task.familyTag == true) : familyTasks = [];
-
-  }
+  };
 
   const sortedTasks = filterRender(tasks, hideDone, workTag, studyTag, entertaimentTag, familyTag);
   //server functions
@@ -222,13 +227,13 @@ function App() {
           onChange = {() => setHideDone(!hideDone)}/>
           </div>
           <TagsList
-          doneButton = {hideDone}
-          actionFunc = {hideDoneTasks}
-          workTag = {workTag}
-          studyTag = {studyTag}
-          entertaimentTag = {entertaimentTag}
-          familyTag = {familyTag}
-          tagFunc = {tagFunction}/>
+            doneButton = {hideDone}
+            actionFunc = {hideDoneTasks}
+            workTag = {workTag}
+            studyTag = {studyTag}
+            entertaimentTag = {entertaimentTag}
+            familyTag = {familyTag}
+            tagFunc = {tagFunction}/>
 
         </AppContainer>
 
