@@ -17,6 +17,7 @@ const TaskItem = ({task, edit, drop, done, ...props}) =>{
     {color: '#DAF2D6', status: task.entertaimentTag},
     {color: '#D2CEFF', status: task.familyTag}]);
 
+
   let status = '';
   doneTask != true ? status = '' : status = 'line-through';
 
@@ -34,13 +35,11 @@ const TaskItem = ({task, edit, drop, done, ...props}) =>{
     done(!doneTask, task.id);
     console.log('status', !doneTask, task.id)
   }
-  useEffect(()=>{
-    console.log('rerender');
-  }, [taskTags])
+
   return(
 
-    <div className = 'App_TaskItem'>
-
+    <div className = 'App_TaskItem' >
+    
       <div className = 'App_TaskItem_Header'>
         <b className = 'App_TaskItem_Header_Font' style = {{textDecoration: status }}>{task.title}</b>
 
@@ -51,13 +50,7 @@ const TaskItem = ({task, edit, drop, done, ...props}) =>{
       </div>
 
       <div className = 'App_TaskItem_Footer'>
-        {/*<div className = 'App_TaskItem_Footer_Tags'>
-          {taskTags.filter(taskTag => taskTag.status == true)
-            .map(taskTag => <TaskTag
-              color = {taskTag.color}
-              fixed = {false}
-              key={taskTag.color}/>)}
-        </div>*/}
+
         <div className = 'App_TaskItem_Footer_Tags'>
           {task.workTag == true ? <TaskTag color = {'#FFCECE'} fixed = {true}/> : ''}
           {task.studyTag == true ? <TaskTag color = {'#D1E5F7'} fixed = {true}/> : ''}

@@ -4,6 +4,7 @@ import AppContainer from './components/UI/container/AppContainer';
 import AppHeader from './components/UI/header/AppHeader';
 import AppButton from './components/UI/button/AppButton';
 import TaskItem from './components/TaskItem';
+import TaskItemList from './components/TaskItemList';
 import TaskTag from './components/TaskTag';
 import TagsList from './components/TagsList';
 import TaskItemForm from './components/TaskItemForm';
@@ -114,7 +115,7 @@ function App() {
     setTasks(newTaskLists);
     closeDeleteForm();
   };
-  const doneTaskActon = (done, id) => {
+  const doneTaskAction = (done, id) => {
     console.log('log', done, id);
     setTasks(tasks.map(task => task.id == id ? {...task, done: done} : task))
   };
@@ -141,6 +142,27 @@ function App() {
       default:
     }
   }
+
+  function filterRender(tasks, hide, work, study, entertaiment, family) {
+    if (hide) {
+        return tasks.filter(task => task.done == false)
+    }
+      return tasks;
+//    let workTasks = [];
+  //  let studyTasks = [];
+//    let entertaimentTasks = [];
+//    let familyTasks = [];
+
+
+  //hide ? (tasks.filter(task => task.done == false) ) : (tasks);
+//    work ? let workTasks = taskArray.filter(task => task.workTag == true) : workTasks = [];
+//    study ? let studyTasks = taskArray.filter(task => task.studyTag == true) : studyTasks = [];
+  //  entertaiment ? let entertaimentTasks = taskArray.filter(task => task.entertaimentTag == true) : entertaimentTasks = [];
+  //  family ? let familyTasks = taskArray.filter(task => task.familyTag == true) : familyTasks = [];
+
+  }
+
+  const sortedTasks = filterRender(tasks, hideDone, workTag, studyTag, entertaimentTag, familyTag);
   //server functions
   const saveData = () =>{
     console.log('fetch', tasks);
@@ -261,19 +283,24 @@ function App() {
                 </AppButton>
               </div>
             </TaskItemForm>
-            <div className = 'App_TaskItems' onChange = {console.log('rerenderayaya')}>
-            {hideDone ? tasks.filter(task => task.done == false).map(task => <TaskItem
+            <div className = 'App_TaskItems' >
+            {/*hideDone ? tasks.filter(task => task.done == false).map(task => <TaskItem
               task = {task}
               key={tasks.id}
               edit = {openEditForm}
-              done = {doneTaskActon}
+              done = {doneTaskAction}
               drop = {openDeleteForm}/>)
-              : tasks.map(task => (<div className = {tasks.id}><TaskItem
+              : tasks.map(task => (<div className = {task.id}><TaskItem
                 task = {task}
                 key={tasks.id}
                 edit = {openEditForm}
-                done = {doneTaskActon}
-                drop = {openDeleteForm}/></div>)) }
+                done = {doneTaskAction}
+                drop = {openDeleteForm}/></div>)) */}
+                <TaskItemList
+                tasks = {sortedTasks}
+                openEditForm = {openEditForm}
+                doneTask = {doneTaskAction}
+                openDeleteForm = {openDeleteForm}/>
                 </div>
 
         </AppContainer>
