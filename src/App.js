@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import './styles/App.css';
+import axios from 'axios';
 import AppContainer from './components/UI/container/AppContainer';
 import AppHeader from './components/UI/header/AppHeader';
 import AppButton from './components/UI/button/AppButton';
@@ -41,7 +42,6 @@ function App() {
         studyTag: true,
         entertaimentTag: false,
         familyTag: false},
-
     ]);
 
   //forms state functionalaity
@@ -116,16 +116,15 @@ function App() {
     closeDeleteForm();
   };
   const doneTaskAction = (done, id) => {
-    console.log('log', done, id);
+    console.log('doneTaskAction', done, id);
     setTasks(tasks.map(task => task.id == id ? {...task, done: done} : task))
   };
-
   const hideDoneTasks = (doneTasks) =>{
-    console.log('test log');
+    console.log('hideDoneTasks');
     setHideDone(!hideDone)
   };
   const tagFunction = (tag) =>{
-    console.log('kek', tag);
+    console.log('tagFunction', tag);
     switch (tag) {
       case 'work':
         setWorkTag(!workTag);
@@ -143,6 +142,7 @@ function App() {
     }
   }
 
+  //task filter functionality
   function filterRender(tasks, hide, work, study, entertaiment, family) {
 
     let filtredTaskArray = [];
@@ -151,12 +151,12 @@ function App() {
     let entertaimentTasks = [];
     let familyTasks = [];
 
-    console.log('filter work 1', filtredTaskArray);
+    console.log('filterRender 1', filtredTaskArray);
 
     if (hide) {
-        tasks = tasks.filter(task => task.done == false)
+        tasks = tasks.filter(task => task.done != true)
     }
-
+    if (work || study || entertaiment || family == true) {
       work ? workTasks = tasks.filter(task => task.workTag == true) : workTasks = [];
       study ? studyTasks = tasks.filter(task => task.studyTag == true) : studyTasks = [];
       entertaiment ? entertaimentTasks = tasks.filter(task => task.entertaimentTag == true) : entertaimentTasks = [];
@@ -164,14 +164,55 @@ function App() {
       filtredTaskArray = [...new Set([...workTasks, ...studyTasks, ...entertaimentTasks, ...familyTasks])];
       console.log('show not all', filtredTaskArray);
       return filtredTaskArray;
-
+    }
+    else {
+      console.log('show all', tasks);
+      return tasks;
+    }
   };
-
   const sortedTasks = filterRender(tasks, hideDone, workTag, studyTag, entertaimentTag, familyTag);
+
   //server functions
-  const saveData = () =>{
-    console.log('fetch', tasks);
+  function loadData() {
+      console.log('load data');
+      axios.post('http://localhost:1348/loadTasks', {
+        method: 'POST',
+        mode: 'no-cors',
+        bodyUsed: true,
+        headers:{
+          'Access-Control-Allow-Origin':'*',
+          "Access-Control-Allow-Methods":"GET, PUT, POST, DELETE",
+          "Access-Control-Allow-Headers":"Origin, X-Requested-With, Content-Type, Accept, Authorization",
+          'Content-Type': 'application/json',
+        },
+      }).then(res => {
+        console.log('data', tasks);
+        setTasks(JSON.parse(JSON.stringify(res.data)));
+      }).catch((error) => {
+        console.warn('error', error);
+      });
   };
+  function saveData() {
+    console.log('send data', tasks);
+    console.log('send data', JSON.stringify(tasks));
+
+    axios.post('http://localhost:1348/sendTasks', {
+      data: JSON.stringify(tasks),
+      headers:{
+    'Access-Control-Allow-Origin':'*',
+    "Access-Control-Allow-Methods":"GET, PUT, POST, DELETE",
+    "Access-Control-Allow-Headers":"Origin, X-Requested-With, Content-Type, Accept, Authorization",
+    'Content-Type': 'application/json',
+  },
+}).then(res => {
+  console.log('save tasks');
+  loadData();
+}).catch((error) => {
+  console.warn('error', error);
+})
+};
+
+
 
   return (
     <div className="App">
@@ -195,7 +236,7 @@ function App() {
             color = '#69665c'
             fontColor = 'white'
             minWidth = '15vw'
-            onClick = {saveData}>Save</AppButton>
+            onClick = {loadData}>Save</AppButton>
 
           <AppButton
             color = '#69665c'
@@ -219,13 +260,7 @@ function App() {
           margin: '5px',
         }}>
 
-          <div>
-          <div>Hide done</div>
-          <input
-          type="checkbox"
-          id="click"
-          onChange = {() => setHideDone(!hideDone)}/>
-          </div>
+
           <TagsList
             doneButton = {hideDone}
             actionFunc = {hideDoneTasks}
@@ -288,25 +323,11 @@ function App() {
                 </AppButton>
               </div>
             </TaskItemForm>
-            <div className = 'App_TaskItems' >
-            {/*hideDone ? tasks.filter(task => task.done == false).map(task => <TaskItem
-              task = {task}
-              key={tasks.id}
-              edit = {openEditForm}
-              done = {doneTaskAction}
-              drop = {openDeleteForm}/>)
-              : tasks.map(task => (<div className = {task.id}><TaskItem
-                task = {task}
-                key={tasks.id}
-                edit = {openEditForm}
-                done = {doneTaskAction}
-                drop = {openDeleteForm}/></div>)) */}
                 <TaskItemList
                 tasks = {sortedTasks}
                 openEditForm = {openEditForm}
                 doneTask = {doneTaskAction}
                 openDeleteForm = {openDeleteForm}/>
-                </div>
 
         </AppContainer>
     </AppContainer>

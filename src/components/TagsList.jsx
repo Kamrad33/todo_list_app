@@ -11,6 +11,7 @@ const TagsList = ({
   entertaimentTag,
   familyTag,  ...props}) => {
 
+  //callbacks functionos from parent component
   const hideFunc = () =>{
     actionFunc(!doneButton);
   };
@@ -21,11 +22,12 @@ const TagsList = ({
   return(
       <div className = {classes.content}>
         <div className = {classes.hideContent}>
-          <div className = {classes.hideText}>Hide done</div>
           <input
+          className = {classes.hideInput}
           type="checkbox"
           id="click"
           onChange = {hideFunc}/>
+          <div className = {classes.hideText}>Hide done</div>
         </div>
 
         <TaskTag

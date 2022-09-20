@@ -17,10 +17,11 @@ const TaskItem = ({task, edit, drop, done, ...props}) =>{
     {color: '#DAF2D6', status: task.entertaimentTag},
     {color: '#D2CEFF', status: task.familyTag}]);
 
-
+  //change text-decoration style
   let status = '';
   doneTask != true ? status = '' : status = 'line-through';
 
+  //callback edit/delete/done functions to parent component
   const editTask = (e) =>{
     setFormActive(true);
     edit(task);
@@ -30,19 +31,18 @@ const TaskItem = ({task, edit, drop, done, ...props}) =>{
     drop(task);
   }
   const doneTaskFunc = (e) =>{
-    console.log('status1', doneTask, task.id)
     setDoneTask(!doneTask);
     done(!doneTask, task.id);
-    console.log('status', !doneTask, task.id)
   }
 
   return(
 
     <div className = 'App_TaskItem' >
-    
-      <div className = 'App_TaskItem_Header'>
-        <b className = 'App_TaskItem_Header_Font' style = {{textDecoration: status }}>{task.title}</b>
 
+      <div className = 'App_TaskItem_Header'>
+        <b className = 'App_TaskItem_Header_Font' style = {{textDecoration: status }}>
+          {task.title}
+        </b>
       </div>
 
       <div className = 'App_TaskItem_Text' style = {{textDecoration: status }}>
@@ -57,6 +57,7 @@ const TaskItem = ({task, edit, drop, done, ...props}) =>{
           {task.entertaimentTag == true ? <TaskTag color = {'#DAF2D6'} fixed = {true}/> : ''}
           {task.familyTag == true ? <TaskTag color = {'#D2CEFF'} fixed = {true}/> : ''}
         </div>
+
         <div className = 'App_TaskItem_Footer_Done'>
           <input
           type="checkbox"
@@ -67,20 +68,21 @@ const TaskItem = ({task, edit, drop, done, ...props}) =>{
         </div>
 
       </div>
+
       <div className = 'App_TaskItem_Footer_Buttons'>
         <AppButton
         color = '#69665c'
         fontColor = 'white'
         minWidth = '10vw'
         onClick = {editTask}>
-        Edit
+          Edit
         </AppButton>
         <AppButton
         color = '#69665c'
         fontColor = 'white'
         minWidth = '10vw'
         onClick = {deleteTask}>
-        Delete
+          Delete
         </AppButton>
       </div>
     </div>

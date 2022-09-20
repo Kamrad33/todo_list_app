@@ -7,6 +7,8 @@
   height: auto;
   border-radius:10px;
   justify-content: space-between;
+  min-width: 25vh;
+  max-width: 50vh;
 }
 
 .App_TaskItem_Header{

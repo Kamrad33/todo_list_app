@@ -19,7 +19,13 @@ display: flex;
 justify-content: space-between;
 align-items: baseline;
 }
-
+.App_TaskItems{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background: red;
+  width: 100%;
+}
 
 /*.App {
   text-align: center;

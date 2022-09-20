@@ -2,8 +2,13 @@
   background: red;
 }
 .hideContent{
+  margin: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+.hideInput{
 
 }
 .hideText{
-
+  font-weight: bold; 
 }
