@@ -1,0 +1,9 @@
+.content{
+  display: flex;
+}
+.nameRow{
+  background: red;
+}
+.dateRow{
+  background: blue;
+}

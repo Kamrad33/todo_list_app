@@ -10,12 +10,15 @@ import TaskTag from './components/TaskTag';
 import TagsList from './components/TagsList';
 import TaskItemForm from './components/TaskItemForm';
 import ItemFormContent from './components/ItemFormContent';
+import TaskSavesList from './components/TaskSavesList';
+import TaskSave from './components/TaskSave';
 
 function App() {
 
   const [editForm, setEditForm] = useState(false);
   const [addForm, setAddForm] = useState(false);
   const [deleteForm, setDeleteForm] = useState(false);
+  const [savesForm, setSavesForm] = useState(false);
   const [editedTask, setEditedTask] = useState({});
   const [hideDone, setHideDone] = useState(false);
   const [workTag, setWorkTag] = useState(false);
@@ -35,15 +38,46 @@ function App() {
         familyTag: false,
         },
       { id: 2,
-        title:'title 2',
-        text:'text text text 2 2 2',
+        title:'title2',
+        text:'texttexttext22111',
         done: false,
         workTag: false,
         studyTag: true,
         entertaimentTag: false,
         familyTag: false},
     ]);
-
+  const [saves, setSaves] = useState([
+    {
+      id: 1,
+      save_name: 'name1',
+      save_date: 'date1',
+      save_json: 'lsajhlgjhalgjlfjghslfjghslkfdjhglsjfdhg'
+    },
+    {
+      id: 2,
+      save_name: 'name2',
+      save_date: 'date2',
+      save_json: 'lsajhlgjhalgjlfjghslfjghslkfdjhglsjfdhg'
+    },
+    {
+      id: 3,
+      save_name: 'name3',
+      save_date: 'date3',
+      save_json: 'lsajhlgjhalgjlfjghslfjghslkfdjhglsjfdhg'
+    },
+    {
+      id: 4,
+      save_name: 'name4',
+      save_date: 'date4',
+      save_json: 'lsajhlgjhalgjlfjghslfjghslkfdjhglsjfdhg'
+    },
+    {
+      id: 5,
+      save_name: 'name5',
+      save_date: 'date5',
+      save_json: 'lsajhlgjhalgjlfjghslfjghslkfdjhglsjfdhg'
+    }
+  ]);
   //forms state functionalaity
   const openEditForm = (task) =>{
     setEditForm(true);
@@ -57,6 +91,9 @@ function App() {
     setEditedTask(task)
     console.log(task);
   };
+  const clickSavesForm = () =>{
+    setSavesForm(!savesForm);
+  }
   const closeEditForm = () =>{
     setEditForm(false);
     setEditedTask({});
@@ -186,8 +223,10 @@ function App() {
           'Content-Type': 'application/json',
         },
       }).then(res => {
-        console.log('data', tasks);
-        setTasks(JSON.parse(JSON.stringify(res.data)));
+        let x = res.data;
+        console.log('data', x[0].data);
+        setTasks(JSON.parse(x[0].data));
+          console.log('PARSED', tasks);
       }).catch((error) => {
         console.warn('error', error);
       });
@@ -224,7 +263,13 @@ function App() {
           minWidth: '100px',
           minHeight: '100px',
           flex: '0 0 100px',
-        }}>Icon</AppContainer>
+        }}>
+        <div
+        className = 'App_Header_Icon'
+        onClick = {() => clickSavesForm()}>
+        Icon
+        </div>
+        </AppContainer>
 
         <div className = 'App_Header_Content'>
 
@@ -323,6 +368,15 @@ function App() {
                 </AppButton>
               </div>
             </TaskItemForm>
+
+            <TaskItemForm
+            active = {savesForm}
+            setActive = {setSavesForm}
+            fixed = {true}>
+            <TaskSavesList
+            saves = {saves}/>
+            </TaskItemForm>
+
                 <TaskItemList
                 tasks = {sortedTasks}
                 openEditForm = {openEditForm}
