@@ -19,6 +19,8 @@ function App() {
   const [addForm, setAddForm] = useState(false);
   const [deleteForm, setDeleteForm] = useState(false);
   const [savesForm, setSavesForm] = useState(false);
+  const [saveDialogForm, setSaveDialogForm] = useState(false);
+  const [saveNameState, setSaveNameState] = useState('');
   const [editedTask, setEditedTask] = useState({});
   const [hideDone, setHideDone] = useState(false);
   const [workTag, setWorkTag] = useState(false);
@@ -51,33 +53,34 @@ function App() {
       id: 1,
       save_name: 'name1',
       save_date: 'date1',
-      save_json: 'lsajhlgjhalgjlfjghslfjghslkfdjhglsjfdhg'
+      save_json: [{id:1, title: 'lol1', text: 'lol lol lol', done: true, workTag: true, studyTag: false, entertaimentTag: false, familyTag: false}, {id: 2, title:'title2', text:'lol 2 lol 2', done: false, workTag: false, studyTag: true, entertaimentTag: false, familyTag: false}]
     },
     {
       id: 2,
       save_name: 'name2',
       save_date: 'date2',
-      save_json: 'lsajhlgjhalgjlfjghslfjghslkfdjhglsjfdhg'
+      save_json: [{}],
     },
     {
       id: 3,
       save_name: 'name3',
       save_date: 'date3',
-      save_json: 'lsajhlgjhalgjlfjghslfjghslkfdjhglsjfdhg'
+      save_json: [{}],
     },
     {
       id: 4,
       save_name: 'name4',
       save_date: 'date4',
-      save_json: 'lsajhlgjhalgjlfjghslfjghslkfdjhglsjfdhg'
+      save_json: [{}],
     },
     {
       id: 5,
       save_name: 'name5',
       save_date: 'date5',
-      save_json: 'lsajhlgjhalgjlfjghslfjghslkfdjhglsjfdhg'
+      save_json: [{}],
     }
   ]);
+
   //forms state functionalaity
   const openEditForm = (task) =>{
     setEditForm(true);
@@ -94,6 +97,12 @@ function App() {
   const clickSavesForm = () =>{
     setSavesForm(!savesForm);
   }
+  const clickSaveDialogForm = () =>{
+    setSaveDialogForm(!saveDialogForm);
+    console.log('save name', saveNameState);
+    console.log('save json', tasks);
+  }
+
   const closeEditForm = () =>{
     setEditForm(false);
     setEditedTask({});
@@ -209,6 +218,11 @@ function App() {
   };
   const sortedTasks = filterRender(tasks, hideDone, workTag, studyTag, entertaimentTag, familyTag);
 
+  function loadSave(json) {
+    let data = JSON.parse(JSON.stringify(json));
+    console.log('work nice', json);
+    setTasks(json);
+  }
   //server functions
   function loadData() {
       console.log('load data');
@@ -281,7 +295,7 @@ function App() {
             color = '#69665c'
             fontColor = 'white'
             minWidth = '15vw'
-            onClick = {loadData}>Save</AppButton>
+            onClick = {clickSaveDialogForm}>Save</AppButton>
 
           <AppButton
             color = '#69665c'
@@ -374,7 +388,26 @@ function App() {
             setActive = {setSavesForm}
             fixed = {true}>
             <TaskSavesList
-            saves = {saves}/>
+            saves = {saves}
+            formAction = {clickSavesForm}
+            loadAction = {loadSave}/>
+            </TaskItemForm>
+
+            <TaskItemForm
+            active = {saveDialogForm}
+            setActive = {setSaveDialogForm}
+            fixed = {true}>
+              <div className = "App_SaveDialogForm">
+                <b style = {{flex: '1'}}>Save name: </b>
+                <input style = {{flex: '5', width: 'auto'}}
+                  onChange = {e => setSaveNameState(e.target.value)}/>
+                <AppButton
+                style = {{flex: '1'}}
+                color = '#69665c'
+                fontColor = 'white'
+                minWidth = '10vw'
+                onClick = {clickSaveDialogForm}>OK</AppButton>
+              </div>
             </TaskItemForm>
 
                 <TaskItemList

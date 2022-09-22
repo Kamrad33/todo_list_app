@@ -26,7 +26,12 @@ align-items: baseline;
   background: red;
   width: 100%;
 }
-
+.App_SaveDialogForm {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  
+}
 /*.App {
   text-align: center;
 }
