@@ -1,7 +1,8 @@
 .App_Header{
 
 }
-.App_Header_Content{
+.App_Header_Content {
+
   background-color: green;
   width: 100%;
   display: flex;
@@ -13,6 +14,24 @@
   display: flex;
   font-size: 200%;
   margin-left: 10vw;
+  width: auto;
+  height: 100%;
+  align-items: center;
+}
+.App_Header_Buttons {
+  margin: auto;
+  display: flex;
+  font-size: 150%;
+  width: auto;
+  height: 100%;
+  align-items: center;
+}
+.App_Header_Icon{
+  background-color: blue;
+  min-width: 150px;
+  min-height: 150px;
+  flex: 0 0 100px;
+  border-radius: 50%;
 }
 .App_DeleteForm_Content{
 display: flex;
@@ -23,14 +42,86 @@ align-items: baseline;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  background: red;
+  background: black;
   width: 100%;
+  height: auto;
 }
 .App_SaveDialogForm {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  
+}
+
+.App_Content {
+  background-color: yellow;
+  display: flex;
+  margin: auto;
+  height: calc(100vh - 150px);
+}
+
+.App_TagBar{
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+}
+
+@media screen and (max-width: 420px) {
+
+  .App_Header_Content {
+    background-color: yellow;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+  }
+
+  .App_Content {
+    background-color: red;
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    margin: auto;
+    height: auto;
+  }
+
+  .App_Header_Content_Text{
+    margin: 5px;
+    display: flex;
+    font-size: 200%;
+    margin-left: 10vw;
+    width: auto;
+    height: 100%;
+    justify-content: center;
+  }
+  .App_Header_Buttons {
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-size: 200%;
+    width: auto;
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .App_TagBar {
+  display: flex;
+  background: green;
+  }
+
+  .App_DeleteForm_Content{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  }
+  .App_SaveDialogForm {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 }
 /*.App {
   text-align: center;

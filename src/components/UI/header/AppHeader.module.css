@@ -3,4 +3,17 @@
   display: flex;
   margin: auto;
   height: auto;
+  width: auto;
+}
+
+@media screen and (max-width: 420px) {
+  .myHeader{
+    background-color: green;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    height: auto;
+    width: auto;
+    align-items: center;
+  }
 }

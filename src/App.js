@@ -272,25 +272,18 @@ function App() {
 
       <AppHeader>
 
-        <AppContainer style={{
-          backgroundColor: 'blue',
-          minWidth: '100px',
-          minHeight: '100px',
-          flex: '0 0 100px',
-        }}>
         <div
-        className = 'App_Header_Icon'
-        onClick = {() => clickSavesForm()}>
-        Icon
+          className = 'App_Header_Icon'
+          onClick = {() => clickSavesForm()}>
+          Icon
         </div>
-        </AppContainer>
 
         <div className = 'App_Header_Content'>
 
           <div className = 'App_Header_Content_Text'>
           Todo list:
           </div>
-
+          <div className = 'App_Header_Buttons'>
           <AppButton
             color = '#69665c'
             fontColor = 'white'
@@ -302,24 +295,13 @@ function App() {
             fontColor = 'white'
             minWidth = '15vw'
             onClick = {openAddForm}>Add</AppButton>
-
+            </div>
         </div>
       </AppHeader>
 
-      <AppContainer style = {{
-        backgroundColor: 'yellow',
-        display: 'flex',
-        margin: 'auto',
-        height: 'calc(100vh - 100px)',
-      }}>
+      <div className = 'App_Content'>
 
-        <AppContainer style = {{
-          display: 'flex',
-          flexDirection: 'column',
-          margin: '5px',
-        }}>
-
-
+        <div className = 'App_TagBar'>
           <TagsList
             doneButton = {hideDone}
             actionFunc = {hideDoneTasks}
@@ -328,8 +310,7 @@ function App() {
             entertaimentTag = {entertaimentTag}
             familyTag = {familyTag}
             tagFunc = {tagFunction}/>
-
-        </AppContainer>
+        </div>
 
         <AppContainer style = {{
           backgroundColor: '#ffffff',
@@ -339,76 +320,6 @@ function App() {
           justifyContent: 'center',
           overflow: 'auto',
         }}>
-            <TaskItemForm
-            active = {editForm}
-            setActive = {setEditForm}
-            fixed = {true}>
-              <ItemFormContent
-              action = 'Edit'
-              close = {closeEditForm}
-              actionFunc = {editTaskFunc}
-              data = {editedTask}/>
-            </TaskItemForm>
-
-            <TaskItemForm
-            active = {addForm}
-            setActive = {setAddForm}
-            fixed = {true}>
-              <ItemFormContent
-              action = 'Add'
-              close = {closeAddForm}
-              actionFunc = {addTaskFunc}
-              data = {''}/>
-            </TaskItemForm>
-            <TaskItemForm
-            active = {deleteForm}
-            setActive = {setDeleteForm}
-            fixed = {true}>
-              <div className = 'App_DeleteForm_Content'>
-                <div>Are you shure?</div>
-                <AppButton
-                  color = '#69665c'
-                  fontColor = 'white'
-                  minWidth = '10vw'
-                  onClick = {closeDeleteForm}>
-                NO
-                </AppButton>
-                <AppButton
-                  color = '#69665c'
-                  fontColor = 'white'
-                  minWidth = '10vw'
-                  onClick = {deleteTaskFunc}>
-                YES
-                </AppButton>
-              </div>
-            </TaskItemForm>
-
-            <TaskItemForm
-            active = {savesForm}
-            setActive = {setSavesForm}
-            fixed = {true}>
-            <TaskSavesList
-            saves = {saves}
-            formAction = {clickSavesForm}
-            loadAction = {loadSave}/>
-            </TaskItemForm>
-
-            <TaskItemForm
-            active = {saveDialogForm}
-            setActive = {setSaveDialogForm}
-            fixed = {true}>
-              <div className = "App_SaveDialogForm">
-                <b style = {{flex: '1'}}>Save name: </b>
-                <input style = {{flex: '5', width: 'auto'}}
-                  onChange = {e => setSaveNameState(e.target.value)}/>
-                <AppButton
-                style = {{flex: '1'}}
-                color = '#69665c'
-                fontColor = 'white'
-                minWidth = '10vw'
-                onClick = {clickSaveDialogForm}>OK</AppButton>
-              </div>
-            </TaskItemForm>
 
                 <TaskItemList
                 tasks = {sortedTasks}
@@ -417,7 +328,92 @@ function App() {
                 openDeleteForm = {openDeleteForm}/>
 
         </AppContainer>
-    </AppContainer>
+
+    </div>
+
+      <div className = 'App_Forms'>
+
+        {/*edit form*/}
+        <TaskItemForm
+        active = {editForm}
+        setActive = {setEditForm}
+        fixed = {true}>
+          <ItemFormContent
+          action = 'Edit'
+          close = {closeEditForm}
+          actionFunc = {editTaskFunc}
+          data = {editedTask}/>
+        </TaskItemForm>
+
+        {/*add form*/}
+        <TaskItemForm
+        active = {addForm}
+        setActive = {setAddForm}
+        fixed = {true}>
+          <ItemFormContent
+          action = 'Add'
+          close = {closeAddForm}
+          actionFunc = {addTaskFunc}
+          data = {''}/>
+        </TaskItemForm>
+
+        {/*delete form*/}
+        <TaskItemForm
+        active = {deleteForm}
+        setActive = {setDeleteForm}
+        fixed = {true}>
+          <div className = 'App_DeleteForm_Content'>
+            <div  className = 'App_DeleteForm_Content_Text'>Are you shure?</div>
+            <div className = 'App_DeleteForm_Content_Button'>
+            <AppButton
+              color = '#69665c'
+              fontColor = 'white'
+              minWidth = '10vw'
+              onClick = {closeDeleteForm}>
+            NO
+            </AppButton>
+            <AppButton
+              color = '#69665c'
+              fontColor = 'white'
+              minWidth = '10vw'
+              onClick = {deleteTaskFunc}>
+            YES
+            </AppButton>
+            </div>
+          </div>
+        </TaskItemForm>
+
+        {/*save form*/}
+        <TaskItemForm
+        active = {savesForm}
+        setActive = {setSavesForm}
+        fixed = {true}>
+          <TaskSavesList
+          saves = {saves}
+          formAction = {clickSavesForm}
+          loadAction = {loadSave}/>
+        </TaskItemForm>
+
+        {/*save dialog form*/}
+        <TaskItemForm
+        active = {saveDialogForm}
+        setActive = {setSaveDialogForm}
+        fixed = {true}>
+
+          <div className = "App_SaveDialogForm">
+            <b style = {{flex: '1'}}>Save name: </b>
+            <input style = {{flex: '5', width: 'auto', borderRadius: '10px'}}
+              onChange = {e => setSaveNameState(e.target.value)}/>
+            <AppButton
+            style = {{flex: '1'}}
+            color = '#69665c'
+            fontColor = 'white'
+            minWidth = '10vw'
+            onClick = {clickSaveDialogForm}>OK</AppButton>
+          </div>
+
+        </TaskItemForm>
+        </div>
 
     </div>
   );

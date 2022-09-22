@@ -1,13 +1,13 @@
 .App_TaskItem{
   background-color: #fff1ae;
   display: flex;
-  flex: 0 0 40vw;
+  flex: 0 0 35vw;
   flex-direction: column;
   margin: 25px;
   height: auto;
   border-radius:10px;
   justify-content: space-between;
-  min-width: 25vh;
+  min-width: 15vh;
   max-width: 50vh;
 }
 

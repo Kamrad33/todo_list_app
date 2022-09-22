@@ -10,5 +10,21 @@
 
 }
 .hideText{
-  font-weight: bold; 
+  font-weight: bold;
+}
+
+@media screen and (max-width: 420px){
+  .content{
+    background: green;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .hideContent{
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 }
