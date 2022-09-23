@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import './styles/App.css';
 import axios from 'axios';
+import logo from './logo.svg';
 import AppContainer from './components/UI/container/AppContainer';
 import AppHeader from './components/UI/header/AppHeader';
 import AppButton from './components/UI/button/AppButton';
@@ -10,6 +11,9 @@ import TaskTag from './components/TaskTag';
 import TagsList from './components/TagsList';
 import TaskItemForm from './components/TaskItemForm';
 import ItemFormContent from './components/ItemFormContent';
+import AuthFormContent from './components/AuthFormContent';
+import RegisterFormContent from './components/RegisterFormContent';
+import AccountFormContent from './components/AccountFormContent';
 import TaskSavesList from './components/TaskSavesList';
 import TaskSave from './components/TaskSave';
 
@@ -20,6 +24,10 @@ function App() {
   const [deleteForm, setDeleteForm] = useState(false);
   const [savesForm, setSavesForm] = useState(false);
   const [saveDialogForm, setSaveDialogForm] = useState(false);
+  const [authForm, setAuthForm] = useState(true);
+  const [authState, setAuthState] = useState(false);
+  const [registerForm, setRegisterForm] = useState(false);
+  const [accountForm, setAccountForm] = useState(false);
   const [saveNameState, setSaveNameState] = useState('');
   const [editedTask, setEditedTask] = useState({});
   const [hideDone, setHideDone] = useState(false);
@@ -28,6 +36,12 @@ function App() {
   const [entertaimentTag, setEntertaimentTag] = useState(false);
   const [familyTag, setFamilyTag] = useState(false);
 
+  const iconSource = logo;
+  const [accountData, setAccountData] = useState({
+    id: 1,
+    user_name: 'Name1',
+    user_password: 'Password'
+  })
   const [tasks, setTasks] = useState(
     [
       { id: 1,
@@ -96,11 +110,30 @@ function App() {
   };
   const clickSavesForm = () =>{
     setSavesForm(!savesForm);
+    setSaveNameState('');
   }
   const clickSaveDialogForm = () =>{
     setSaveDialogForm(!saveDialogForm);
     console.log('save name', saveNameState);
     console.log('save json', tasks);
+    setSaveNameState('');
+      console.log('save name 2', saveNameState);
+  }
+  const clickAuthForm = () => {
+    setAuthForm(!authForm);
+  }
+  const clickRegisterForm = () =>{
+    clickAuthForm();
+    setRegisterForm(!registerForm);
+  }
+  const clickAccountForm = () => {
+    console.log('account');
+    setSavesForm(!savesForm);
+    setAccountForm(!accountForm);
+  }
+  const editAccountFunc = () => {
+    console.log('edit2');
+    clickAccountForm();
   }
 
   const closeEditForm = () =>{
@@ -264,7 +297,10 @@ function App() {
   console.warn('error', error);
 })
 };
-
+  function registerFunc() {
+    console.log('register');
+    setRegisterForm(false);
+  }
 
 
   return (
@@ -273,10 +309,15 @@ function App() {
       <AppHeader>
 
         <div
-          className = 'App_Header_Icon'
-          onClick = {() => clickSavesForm()}>
-          Icon
-        </div>
+          className = 'App_Header_Icon'>
+          {!authState ? (<div
+          onClick = {() => clickSavesForm()}>UserName</div>) :
+          (<div className = 'App_Header_Login'><AppButton
+            color = '#69665c'
+            fontColor = 'white'
+            minWidth = '15vw'
+            onClick = {clickAuthForm}>Log in</AppButton></div>)
+        }</div>
 
         <div className = 'App_Header_Content'>
 
@@ -391,7 +432,8 @@ function App() {
           <TaskSavesList
           saves = {saves}
           formAction = {clickSavesForm}
-          loadAction = {loadSave}/>
+          loadAction = {loadSave}
+          accountAction = {clickAccountForm}/>
         </TaskItemForm>
 
         {/*save dialog form*/}
@@ -403,6 +445,8 @@ function App() {
           <div className = "App_SaveDialogForm">
             <b style = {{flex: '1'}}>Save name: </b>
             <input style = {{flex: '5', width: 'auto', borderRadius: '10px'}}
+              placeholder = 'Insert save name'
+              value = {saveNameState}
               onChange = {e => setSaveNameState(e.target.value)}/>
             <AppButton
             style = {{flex: '1'}}
@@ -412,6 +456,34 @@ function App() {
             onClick = {clickSaveDialogForm}>OK</AppButton>
           </div>
 
+        </TaskItemForm>
+        {/*Authorization form*/}
+        <TaskItemForm
+        active = {authForm}
+        setActive = {setAuthForm}
+        fixed = {true}>
+          <AuthFormContent
+          formAction = {clickAuthForm}
+          registerAction = {clickRegisterForm}/>
+        </TaskItemForm>
+        {/*Registration form*/}
+        <TaskItemForm
+        active = {registerForm}
+        setActive = {setRegisterForm}
+        fixed = {true}>
+          <RegisterFormContent
+          formAction = {clickRegisterForm}
+          register = {registerFunc}/>
+        </TaskItemForm>
+
+        {/*Account form*/}
+        <TaskItemForm
+        active = {accountForm}
+        setActive = {setAccountForm}
+        fixed = {true}>
+          <AccountFormContent
+          accountData = {accountData}
+          editAccount = {editAccountFunc}/>
         </TaskItemForm>
         </div>
 

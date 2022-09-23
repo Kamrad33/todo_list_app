@@ -3,7 +3,7 @@ import TaskSave from './TaskSave';
 import AppButton from './UI/button/AppButton';
 import classes from '../styles/TaskSave.module.css';
 
-const TaskSavesList = ({saves, formAction, loadAction, ...props}) => {
+const TaskSavesList = ({saves, formAction, loadAction, accountAction, ...props}) => {
 
   const closeForm = () =>{
     console.log('close form');
@@ -12,7 +12,10 @@ const TaskSavesList = ({saves, formAction, loadAction, ...props}) => {
   const loadSave = (json) => {
     console.log('load save', json);
     loadAction(json);
-
+  }
+  const editAccount = () => {
+    console.log('edit acc');
+    accountAction();
   }
 
   return (
@@ -30,7 +33,7 @@ const TaskSavesList = ({saves, formAction, loadAction, ...props}) => {
         </div>)}
       </div>
 
-      <div className = {classes.closeBtn}>
+      <div className = {classes.buttons}>
 
       <AppButton
         color = '#69665c'
@@ -39,6 +42,14 @@ const TaskSavesList = ({saves, formAction, loadAction, ...props}) => {
         onClick = {closeForm}>
       Close
       </AppButton>
+      <AppButton
+        color = '#69665c'
+        fontColor = 'white'
+        minWidth = '10vw'
+        onClick = {editAccount}>
+      Edit account
+      </AppButton>
+
 
       </div>
     </div>

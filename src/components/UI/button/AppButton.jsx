@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import classes from './AppButton.module.css';
 
-const AppButton = ({size, color, fontColor, minWidth, children, ...props}) =>{
+const AppButton = ({size, color, fontColor, minWidth, maxWidth, children, ...props}) =>{
   return (
     <button {...props}
     className={classes.myButton}
@@ -9,7 +9,8 @@ const AppButton = ({size, color, fontColor, minWidth, children, ...props}) =>{
       fontSize: size,
       backgroundColor: color,
       color: fontColor,
-      minWidth: minWidth}}>
+      minWidth: minWidth,
+      maxWidth: maxWidth}}>
     {children}
     </button>
   );

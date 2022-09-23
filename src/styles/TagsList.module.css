@@ -1,21 +1,24 @@
 .content{
-  background: red;
+
 }
+
 .hideContent{
   margin: 15px;
   display: flex;
   justify-content: space-between;
 }
+
 .hideInput{
 
 }
+
 .hideText{
   font-weight: bold;
 }
 
+
 @media screen and (max-width: 420px){
   .content{
-    background: green;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

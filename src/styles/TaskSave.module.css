@@ -3,6 +3,7 @@
   display: flex;
   border: solid 2px;
   border-radius: 10px;
+  flex-wrap: wrap;
 }
 .nameRow{
   margin: 5px;
@@ -12,4 +13,24 @@
 .dateRow{
   margin: 5px;
   padding: 5px;
+}
+.listContent{
+
+}
+.list{
+
+}
+.buttons{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width:420px) {
+  
+  .nameRow{
+    margin: 5px;
+    padding: 5px;
+    border-bottom: solid 2px;
+  }
 }

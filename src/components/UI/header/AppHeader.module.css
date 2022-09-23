@@ -1,5 +1,4 @@
 .myHeader{
-  background-color: red;
   display: flex;
   margin: auto;
   height: auto;
@@ -8,7 +7,6 @@
 
 @media screen and (max-width: 420px) {
   .myHeader{
-    background-color: green;
     display: flex;
     flex-direction: column;
     margin: auto;
