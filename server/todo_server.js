@@ -57,3 +57,41 @@ app.post('/sendTasks', async function(req, res, next) {
       res.send(rows);
     }});
 });
+app.post('/userLogin', async function(req, res, next) {
+  if (!req.body) return res.sendStatus(400);
+  const user_name = req.body.user_name;
+  const user_password = req.body.user_password;
+
+  pool.query('SELECT user.user_name, user.user_password from user where user_name = ? and user_password = ?', [user_name, user_password], function(err, rows, fields) {
+    if (err) return console.log(err);
+    else {
+      console.log(rows);
+      res.send(rows);
+    }
+  });
+});
+
+app.post('/checkUser', async function (req, res, next) {
+  if (!req.body) return res.sendStatus(400);
+  const user_name = req.body.user_name;
+  pool.query('select * from user where user_name = ?', [user_name], function (err, rows, fields) {
+    if (err) return console.log(err);
+    else {
+        console.log(rows);
+        res.send(rows);
+    }
+  });
+});
+app.post('/userRegister', async function(req, res, next) {
+  if (!req.body) return res.sendStatus(400);
+  const user_name = req.body.user_name;
+  const user_password = req.body.user_password;
+
+  pool.query('INSERT into user (user_name, user_password) values (?,?)', [user_name, user_password], function (err, rows, fields) {
+    if (err) return console.log(err);
+    else {
+      console.log(rows);
+      res.send(rows);
+    }
+  })
+})

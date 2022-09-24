@@ -16,6 +16,7 @@ import RegisterFormContent from './components/RegisterFormContent';
 import AccountFormContent from './components/AccountFormContent';
 import TaskSavesList from './components/TaskSavesList';
 import TaskSave from './components/TaskSave';
+import {AuthContext} from './components/AuthPages/Auth';
 
 function App() {
 
@@ -24,8 +25,7 @@ function App() {
   const [deleteForm, setDeleteForm] = useState(false);
   const [savesForm, setSavesForm] = useState(false);
   const [saveDialogForm, setSaveDialogForm] = useState(false);
-  const [authForm, setAuthForm] = useState(true);
-  const [authState, setAuthState] = useState(false);
+  const [authForm, setAuthForm] = useState(false);
   const [registerForm, setRegisterForm] = useState(false);
   const [accountForm, setAccountForm] = useState(false);
   const [saveNameState, setSaveNameState] = useState('');
@@ -35,13 +35,21 @@ function App() {
   const [studyTag, setStudyTag] = useState(false);
   const [entertaimentTag, setEntertaimentTag] = useState(false);
   const [familyTag, setFamilyTag] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [authTokens, setAuthTokens] = useState();
 
-  const iconSource = logo;
+  const setTokens = (data) => {
+    localStorage.setItem('Tokens', JSON.stringify(data));
+    setAuthTokens(data);
+    console.log('Loacl data', data);
+  }
+
   const [accountData, setAccountData] = useState({
     id: 1,
     user_name: 'Name1',
     user_password: 'Password'
-  })
+  });
   const [tasks, setTasks] = useState(
     [
       { id: 1,
@@ -297,10 +305,60 @@ function App() {
   console.warn('error', error);
 })
 };
-  function registerFunc() {
-    console.log('register');
-    setRegisterForm(false);
-  }
+
+
+  function postLogin(login, password) {
+    console.log('login', login, password);
+    axios.post('http://localhost:1348/userLogin', {
+      user_name: login,
+      user_password: password,
+    })
+    .then(res => {
+      console.log('login length', JSON.stringify(res.data));
+      if (res.data.length > 0) {
+        setAuthTokens(res.data);
+        setLoggedIn(true);
+        setAccountData({user_name: login, user_password:password})
+        clickAuthForm(!authForm);
+        setIsError(false);
+      } else {
+        setIsError(true);
+        console.log('login err', login);
+      }
+    })
+    .catch((error) => {
+      setIsError(true);
+      console.warn('error', error);
+    })
+  };
+
+  function postRegister(login, password) {
+    console.log('register', login, password);
+    axios.post('http://localhost:1348/checkUser', {
+      user_name:login
+    }).then(res => {
+      if (res.data.length == 0) {
+        setIsError(true);
+        axios.post('http://localhost:1348/userRegister', {
+          user_name: login,
+          user_password: password
+        }).then(res => {
+          console.log('reg data', res);
+          setRegisterForm(false);
+          clickAuthForm(!authForm);
+        }).
+        catch((err) => {
+          console.warn('err', err);
+        });
+      } else {
+        setIsError(true);
+        console.log('adgkasdhgfkashgfasdhgfkasdhgkadshgfkahdsgfkahsdgkfhasdkfhagskdhfgkashdgf');
+      }
+    }).catch((error) => {
+        setIsError(true);
+        console.warn('error', error);
+      })
+  };
 
 
   return (
@@ -310,8 +368,8 @@ function App() {
 
         <div
           className = 'App_Header_Icon'>
-          {!authState ? (<div
-          onClick = {() => clickSavesForm()}>UserName</div>) :
+          {isLoggedIn ? (<div
+          onClick = {() => clickSavesForm()}>{accountData.user_name}</div>) :
           (<div className = 'App_Header_Login'><AppButton
             color = '#69665c'
             fontColor = 'white'
@@ -464,7 +522,9 @@ function App() {
         fixed = {true}>
           <AuthFormContent
           formAction = {clickAuthForm}
-          registerAction = {clickRegisterForm}/>
+          registerAction = {clickRegisterForm}
+          loginAction = {postLogin}/>
+          {isError && <div style = {{color: 'red'}}>Wrong login or password!</div>}
         </TaskItemForm>
         {/*Registration form*/}
         <TaskItemForm
@@ -473,7 +533,8 @@ function App() {
         fixed = {true}>
           <RegisterFormContent
           formAction = {clickRegisterForm}
-          register = {registerFunc}/>
+          register = {postRegister}/>
+          {isError && <div style = {{color: 'red'}}>User already exist!</div>}
         </TaskItemForm>
 
         {/*Account form*/}

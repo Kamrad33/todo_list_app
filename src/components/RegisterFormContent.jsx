@@ -3,12 +3,15 @@ import AppButton from './UI/button/AppButton';
 import classes from '../styles/AuthFormContent.module.css';
 
 const RegisterFormContent = ({formAction, loginAction, register, ...props}) => {
-
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
   const closeForm = () => {
     formAction();
   }
   const registerButton = () => {
-    register();
+    register(login, password);
+    setLogin('');
+    setPassword('');
   }
 
   return (
@@ -18,13 +21,18 @@ const RegisterFormContent = ({formAction, loginAction, register, ...props}) => {
       <br/>
         <input
         placeholder = 'Insert login...'
-        className = {classes.input} />
+        className = {classes.input}
+        value = {login}
+        onChange = {e => setLogin(e.target.value)}
+        />
       <br/>
       <b>Password</b>
       <br/>
         <input
         placeholder = 'Insert password...'
-        className = {classes.input} />
+        className = {classes.input}
+        value = {password}
+        onChange = {e => setPassword(e.target.value)}  />
       </div>
       <div className = {classes.buttons}>
         <AppButton
