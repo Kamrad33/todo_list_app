@@ -39,7 +39,9 @@ app.listen(1348, function(error){
 });
 
 app.post('/loadTasks', async function(req, res, next){
-  pool.query('SELECT * FROM save', function(err, rows, fields){
+  if (!req.body) return res.sendStatus(400);
+  const user_id = req.body.user_id;
+  pool.query('SELECT * FROM save where user_id = ?', [user_id], function(err, rows, fields){
     if (err) return console.log(err);
     else{
       console.log('SAVE DATA: ', rows);
@@ -49,8 +51,11 @@ app.post('/loadTasks', async function(req, res, next){
 });
 app.post('/sendTasks', async function(req, res, next) {
   if (!req.body) return res.sendStatus(400);
-  const data = req.body.data;
-  pool.query('INSERT INTO save (data) values (?)', data, function(err, rows, fields) {
+  const save_name = req.body.save_name;
+  const save_date = req.body.save_date;
+  const save_json = req.body.save_json;
+  const user_id = req.body.user_id;
+  pool.query('INSERT INTO save (save_name, save_date, save_json, user_id) values (?,?,?,?)', [save_name, save_date, save_json, user_id], function(err, rows, fields) {
     if (err) return console.log(err);
     else {
       console.log(rows);
@@ -62,7 +67,7 @@ app.post('/userLogin', async function(req, res, next) {
   const user_name = req.body.user_name;
   const user_password = req.body.user_password;
 
-  pool.query('SELECT user.user_name, user.user_password from user where user_name = ? and user_password = ?', [user_name, user_password], function(err, rows, fields) {
+  pool.query('SELECT user.id, user.user_name, user.user_password from user where user_name = ? and user_password = ?', [user_name, user_password], function(err, rows, fields) {
     if (err) return console.log(err);
     else {
       console.log(rows);
@@ -93,5 +98,19 @@ app.post('/userRegister', async function(req, res, next) {
       console.log(rows);
       res.send(rows);
     }
-  })
-})
+  });
+});
+app.post('/editAccount', async function(req, res, next) {
+  if (!req.body) return res.sendStatus(400);
+  const id = req.body.id;
+  const user_name = req.body.user_name;
+  const user_password = req.body.user_password;
+
+  pool.query('UPDATE user SET user_name = ?, user_password = ? where id = ?', [user_name, user_password, id], function (err, rows,fields) {
+    if (err) return console.log(err);
+    else {
+      console.log(rows);
+      res.send(rows)
+    }
+  });
+});

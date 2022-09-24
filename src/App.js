@@ -119,6 +119,7 @@ function App() {
   const clickSavesForm = () =>{
     setSavesForm(!savesForm);
     setSaveNameState('');
+    loadData(accountData.id);
   }
   const clickSaveDialogForm = () =>{
     setSaveDialogForm(!saveDialogForm);
@@ -139,10 +140,7 @@ function App() {
     setSavesForm(!savesForm);
     setAccountForm(!accountForm);
   }
-  const editAccountFunc = () => {
-    console.log('edit2');
-    clickAccountForm();
-  }
+
 
   const closeEditForm = () =>{
     setEditForm(false);
@@ -260,14 +258,15 @@ function App() {
   const sortedTasks = filterRender(tasks, hideDone, workTag, studyTag, entertaimentTag, familyTag);
 
   function loadSave(json) {
-    let data = JSON.parse(JSON.stringify(json));
-    console.log('work nice', json);
-    setTasks(json);
+    console.log(' dhladhladjhfahjlaksdjhflasdjhflasdjhlfjsd',JSON.parse(json));
+    setTasks(JSON.parse(json));
+;
   }
   //server functions
-  function loadData() {
+  function loadData(user_id) {
       console.log('load data');
       axios.post('http://localhost:1348/loadTasks', {
+        user_id: user_id,
         method: 'POST',
         mode: 'no-cors',
         bodyUsed: true,
@@ -278,9 +277,7 @@ function App() {
           'Content-Type': 'application/json',
         },
       }).then(res => {
-        let x = res.data;
-        console.log('data', x[0].data);
-        setTasks(JSON.parse(x[0].data));
+        setSaves(res.data);
           console.log('PARSED', tasks);
       }).catch((error) => {
         console.warn('error', error);
@@ -289,9 +286,13 @@ function App() {
   function saveData() {
     console.log('send data', tasks);
     console.log('send data', JSON.stringify(tasks));
-
+    let date = new Date().toISOString().slice(0,19).replace('T', ' ');
+    console.log(saveNameState, date, JSON.stringify(tasks), accountData.id);
     axios.post('http://localhost:1348/sendTasks', {
-      data: JSON.stringify(tasks),
+      save_name: saveNameState,
+      save_date: date,
+      save_json: JSON.stringify(tasks),
+      user_id: accountData.id,
       headers:{
     'Access-Control-Allow-Origin':'*',
     "Access-Control-Allow-Methods":"GET, PUT, POST, DELETE",
@@ -300,7 +301,7 @@ function App() {
   },
 }).then(res => {
   console.log('save tasks');
-  loadData();
+  clickSaveDialogForm();
 }).catch((error) => {
   console.warn('error', error);
 })
@@ -317,8 +318,9 @@ function App() {
       console.log('login length', JSON.stringify(res.data));
       if (res.data.length > 0) {
         setAuthTokens(res.data);
+        let id = res.data[0].id
         setLoggedIn(true);
-        setAccountData({user_name: login, user_password:password})
+        setAccountData({id: res.data[0].id, user_name: res.data[0].user_name, user_password: res.data[0].user_password})
         clickAuthForm(!authForm);
         setIsError(false);
       } else {
@@ -346,13 +348,13 @@ function App() {
           console.log('reg data', res);
           setRegisterForm(false);
           clickAuthForm(!authForm);
+          setIsError(false);
         }).
         catch((err) => {
           console.warn('err', err);
         });
       } else {
         setIsError(true);
-        console.log('adgkasdhgfkashgfasdhgfkasdhgkadshgfkahdsgfkahsdgkfhasdkfhagskdhfgkashdgf');
       }
     }).catch((error) => {
         setIsError(true);
@@ -360,6 +362,19 @@ function App() {
       })
   };
 
+  const editAccountFunc = (id, login, password) => {
+    console.log('edit2', id, login, password);
+    axios.post('http://localhost:1348/editAccount', {
+      id: id,
+      user_name: login,
+      user_password: password,
+    }).then(res => {
+        console.log(res);
+        clickAccountForm();
+    }).catch((err) => {
+      console.warn('err', err);
+    })
+  };
 
   return (
     <div className="App">
@@ -419,12 +434,14 @@ function App() {
           justifyContent: 'center',
           overflow: 'auto',
         }}>
-
+                { isLoggedIn ?
                 <TaskItemList
                 tasks = {sortedTasks}
                 openEditForm = {openEditForm}
                 doneTask = {doneTaskAction}
                 openDeleteForm = {openDeleteForm}/>
+                : <div>You have to be logged in to use this app</div>
+              }
 
         </AppContainer>
 
@@ -511,7 +528,7 @@ function App() {
             color = '#69665c'
             fontColor = 'white'
             minWidth = '10vw'
-            onClick = {clickSaveDialogForm}>OK</AppButton>
+            onClick = {saveData}>OK</AppButton>
           </div>
 
         </TaskItemForm>
