@@ -17,8 +17,14 @@ import AccountFormContent from './components/AccountFormContent';
 import TaskSavesList from './components/TaskSavesList';
 import TaskSave from './components/TaskSave';
 import {AuthContext} from './components/AuthPages/Auth';
+import {useDispatch, useSelector} from 'react-redux';
 
 function App() {
+  //init reducers
+  const dispatch = useDispatch();
+  const tasks = useSelector(state => state.tasks.tasks);
+  const userData = useSelector(state => state.userData.cash)
+  console.log('REDUX CHECK', tasks);
 
   const [editForm, setEditForm] = useState(false);
   const [addForm, setAddForm] = useState(false);
@@ -35,7 +41,7 @@ function App() {
   const [studyTag, setStudyTag] = useState(false);
   const [entertaimentTag, setEntertaimentTag] = useState(false);
   const [familyTag, setFamilyTag] = useState(false);
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(true);
   const [isError, setIsError] = useState(false);
   const [authTokens, setAuthTokens] = useState();
 
@@ -50,7 +56,7 @@ function App() {
     user_name: 'Name1',
     user_password: 'Password'
   });
-  const [tasks, setTasks] = useState(
+  /*const [tasks, setTasks] = useState(
     [
       { id: 1,
         title:'title 1',
@@ -69,7 +75,7 @@ function App() {
         studyTag: true,
         entertaimentTag: false,
         familyTag: false},
-    ]);
+    ]);*/
   const [saves, setSaves] = useState([
     {
       id: 1,
@@ -171,7 +177,8 @@ function App() {
         studyTag:studyTag,
         entertaimentTag:entertaimentTag,
         familyTag:familyTag};
-      setTasks([...tasks, newTask]);
+      dispatch({type:'ADD_TASK', payload: newTask})
+    //  setTasks([...tasks, newTask]);
   };
   const editTaskFunc = (
     id,
@@ -192,17 +199,21 @@ function App() {
         entertaimentTag: entertaimentTag,
         familyTag: familyTag};
       let newTaskLists = tasks.filter(task => task.id != id);
-      setTasks([editedTaskObj, ...newTaskLists]);
+      dispatch({type: 'EDIT_TASK', payload:[editedTaskObj, ...newTaskLists]})
+    //  setTasks([editedTaskObj, ...newTaskLists]);
       closeEditForm();
   };
   const deleteTaskFunc = () =>{
     let newTaskLists = tasks.filter(task => task.id != editedTask.id);
-    setTasks(newTaskLists);
+    dispatch({type: 'DELETE_TASK', payload: newTaskLists})
+  //  setTasks(newTaskLists);
     closeDeleteForm();
   };
   const doneTaskAction = (done, id) => {
     console.log('doneTaskAction', done, id);
-    setTasks(tasks.map(task => task.id == id ? {...task, done: done} : task))
+    let mappedTasks = tasks.map(task => task.id == id ? {...task, done: done} : task);
+    dispatch({type: 'DONE_TASK', payload: mappedTasks})
+  //  setTasks(mappedTasks)
   };
   const hideDoneTasks = (doneTasks) =>{
     console.log('hideDoneTasks');
@@ -258,8 +269,9 @@ function App() {
   const sortedTasks = filterRender(tasks, hideDone, workTag, studyTag, entertaimentTag, familyTag);
 
   function loadSave(json) {
-    console.log(' dhladhladjhfahjlaksdjhflasdjhflasdjhlfjsd',JSON.parse(json));
-    setTasks(JSON.parse(json));
+    console.log(' dhladhladjhfahjlaksdjhflasdjhflasdjhlfjsd', json);
+    dispatch({type: 'LOAD_TASK', payload: json})
+  //  setTasks(json);
 ;
   }
   //server functions
@@ -515,7 +527,7 @@ function App() {
         <TaskItemForm
         active = {saveDialogForm}
         setActive = {setSaveDialogForm}
-        fixed = {true}>
+        fixed = {false}>
 
           <div className = "App_SaveDialogForm">
             <b style = {{flex: '1'}}>Save name: </b>

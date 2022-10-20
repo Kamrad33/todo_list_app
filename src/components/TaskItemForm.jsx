@@ -14,7 +14,7 @@ const TaskItemForm = ({active, setActive, fixed, children}) => {
         {children}
 
       </div>
-      
+
     </div>
   );
 };
