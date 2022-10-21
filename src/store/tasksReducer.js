@@ -20,19 +20,32 @@ const defaultState = {
   ],
 }
 
+const ADD_TASK = 'ADD_TASK';
+const EDIT_TASK = 'EDIT_TASK';
+const DONE_TASK = 'DONE_TASK';
+const DELETE_TASK = 'DELETE_TASK';
+const LOAD_TASK = 'LOAD_TASK';
+
 export const tasksReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case 'ADD_TASK':
+    case ADD_TASK:
       return {...state, tasks: [...state.tasks, action.payload]};
-    case 'EDIT_TASK':
+    case EDIT_TASK:
       return {...state, tasks: action.payload};
-    case 'DONE_TASK':
+    case DONE_TASK:
       return {...state, tasks: action.payload};
-    case 'DELETE_TASK':
-      return {...state, tasks: action.payload};
-    case 'LOAD_TASK':
+    case DELETE_TASK:
+      return {...state, tasks: state.tasks.filter(task => task.id !== action.payload)};
+    case LOAD_TASK:
       return {...state, tasks: action.payload};
     default:
     return state;
   }
-}
+};
+
+//action creators
+export const addTaskActionReducer = (payload) => ({type: ADD_TASK, payload});
+export const editTaskActionReducer  = (payload) => ({type: EDIT_TASK, payload});
+export const doneTaskActionReducer  = (payload) => ({type: DONE_TASK, payload});
+export const deleteTaskActionReducer  = (payload) => ({type: DELETE_TASK, payload});
+export const loadTaskActionReducer  = (payload) => ({type: LOAD_TASK, payload});

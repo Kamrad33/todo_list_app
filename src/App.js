@@ -18,12 +18,16 @@ import TaskSavesList from './components/TaskSavesList';
 import TaskSave from './components/TaskSave';
 import {AuthContext} from './components/AuthPages/Auth';
 import {useDispatch, useSelector} from 'react-redux';
+import {addTaskActionReducer, editTaskActionReducer, doneTaskActionReducer, deleteTaskActionReducer, loadTaskActionReducer,} from './store/tasksReducer';
+import {loadSavesActionReducer} from './store/savesReducer';
+import {logInActionReducer} from './store/userDataReducer';
 
 function App() {
   //init reducers
   const dispatch = useDispatch();
   const tasks = useSelector(state => state.tasks.tasks);
-  const userData = useSelector(state => state.userData.cash)
+  const saves = useSelector(state => state.saves.saves)
+  const accountData = useSelector(state => state.userData.account)
   console.log('REDUX CHECK', tasks);
 
   const [editForm, setEditForm] = useState(false);
@@ -41,7 +45,7 @@ function App() {
   const [studyTag, setStudyTag] = useState(false);
   const [entertaimentTag, setEntertaimentTag] = useState(false);
   const [familyTag, setFamilyTag] = useState(false);
-  const [isLoggedIn, setLoggedIn] = useState(true);
+  const [isLoggedIn, setLoggedIn] = useState(false);
   const [isError, setIsError] = useState(false);
   const [authTokens, setAuthTokens] = useState();
 
@@ -51,11 +55,11 @@ function App() {
     console.log('Loacl data', data);
   }
 
-  const [accountData, setAccountData] = useState({
+/*  const [accountData, setAccountData] = useState({
     id: 1,
     user_name: 'Name1',
     user_password: 'Password'
-  });
+  });*/
   /*const [tasks, setTasks] = useState(
     [
       { id: 1,
@@ -76,7 +80,7 @@ function App() {
         entertaimentTag: false,
         familyTag: false},
     ]);*/
-  const [saves, setSaves] = useState([
+/*  const [saves, setSaves] = useState([
     {
       id: 1,
       save_name: 'name1',
@@ -107,7 +111,7 @@ function App() {
       save_date: 'date5',
       save_json: [{}],
     }
-  ]);
+  ]);*/
 
   //forms state functionalaity
   const openEditForm = (task) =>{
@@ -177,7 +181,7 @@ function App() {
         studyTag:studyTag,
         entertaimentTag:entertaimentTag,
         familyTag:familyTag};
-      dispatch({type:'ADD_TASK', payload: newTask})
+      dispatch(addTaskActionReducer(newTask));
     //  setTasks([...tasks, newTask]);
   };
   const editTaskFunc = (
@@ -199,20 +203,20 @@ function App() {
         entertaimentTag: entertaimentTag,
         familyTag: familyTag};
       let newTaskLists = tasks.filter(task => task.id != id);
-      dispatch({type: 'EDIT_TASK', payload:[editedTaskObj, ...newTaskLists]})
+      dispatch(editTaskActionReducer([editedTaskObj, ...newTaskLists]));
     //  setTasks([editedTaskObj, ...newTaskLists]);
       closeEditForm();
   };
   const deleteTaskFunc = () =>{
-    let newTaskLists = tasks.filter(task => task.id != editedTask.id);
-    dispatch({type: 'DELETE_TASK', payload: newTaskLists})
+  //  let newTaskLists = tasks.filter(task => task.id != editedTask.id);
+    dispatch(deleteTaskActionReducer(editedTask.id));
   //  setTasks(newTaskLists);
     closeDeleteForm();
   };
   const doneTaskAction = (done, id) => {
     console.log('doneTaskAction', done, id);
     let mappedTasks = tasks.map(task => task.id == id ? {...task, done: done} : task);
-    dispatch({type: 'DONE_TASK', payload: mappedTasks})
+    dispatch(doneTaskActionReducer(mappedTasks));
   //  setTasks(mappedTasks)
   };
   const hideDoneTasks = (doneTasks) =>{
@@ -269,9 +273,9 @@ function App() {
   const sortedTasks = filterRender(tasks, hideDone, workTag, studyTag, entertaimentTag, familyTag);
 
   function loadSave(json) {
-    console.log(' dhladhladjhfahjlaksdjhflasdjhflasdjhlfjsd', json);
-    dispatch({type: 'LOAD_TASK', payload: json})
-  //  setTasks(json);
+    console.log(' load save function', json);
+    dispatch(loadTaskActionReducer(JSON.parse(json)));
+  //  setTasks(JSON.parse(json));
 ;
   }
   //server functions
@@ -289,7 +293,8 @@ function App() {
           'Content-Type': 'application/json',
         },
       }).then(res => {
-        setSaves(res.data);
+        dispatch(loadSavesActionReducer(res.data))
+        //setSaves(res.data);
           console.log('PARSED', tasks);
       }).catch((error) => {
         console.warn('error', error);
@@ -332,7 +337,8 @@ function App() {
         setAuthTokens(res.data);
         let id = res.data[0].id
         setLoggedIn(true);
-        setAccountData({id: res.data[0].id, user_name: res.data[0].user_name, user_password: res.data[0].user_password})
+        dispatch(logInActionReducer({id: res.data[0].id, user_name: res.data[0].user_name, user_password: res.data[0].user_password}))
+        //setAccountData({id: res.data[0].id, user_name: res.data[0].user_name, user_password: res.data[0].user_password})
         clickAuthForm(!authForm);
         setIsError(false);
       } else {
